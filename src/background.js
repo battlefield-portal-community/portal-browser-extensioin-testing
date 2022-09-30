@@ -5,17 +5,17 @@
 // For more information on background script,
 // See https://developer.chrome.com/extensions/background_pages
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'GREETINGS') {
-    const message = `Hi ${
-      sender.tab ? 'Con' : 'Pop'
-    }, my name is Bac. I am from Background. It's great to hear from you.`;
 
-    // Log message coming from the `request` parameter
-    console.log(request.payload.message);
-    // Send a response message
-    sendResponse({
-      message,
-    });
+async function sendFoo(sendResponse) {
+  let cookie = await browser.cookies.get({url: "https://portal.battlefield.com", name: "sessionId"});
+  sendResponse(cookie.value);
+}
+
+chrome.runtime.onMessage.addListener(
+  function (request, sender, sendResponse) {
+    if (request.type === "getCookie") {
+      sendFoo(sendResponse)
+      return true
+    }
   }
-});
+);
