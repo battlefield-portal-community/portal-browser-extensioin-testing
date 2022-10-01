@@ -15,6 +15,12 @@ async function getCookie(sendResponse) {
   sendResponse(cookie.value);
 }
 
+browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status == "complete" && changeInfo.url == "https://portal.battlefield.com/experiences") {
+    console.log(tabId, tab)
+  }
+});
+
 chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
     switch (request.type) {

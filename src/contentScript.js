@@ -1,6 +1,7 @@
 'use strict';
 import './contentScript.css';
 
+
 function waitForElm(selector) {
   return new Promise(resolve => {
       if (document.querySelector(selector)) {
